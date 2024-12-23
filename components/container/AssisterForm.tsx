@@ -67,7 +67,7 @@ const AssisterForm = () => {
           <div className="container !py-0">
             <div>
               <div
-                className={`flex w-full gap-3 py-2 px-4 rounded-xl bg-white/5 backdrop-blur-md relative ${errors?.message ? "ring-2 ring-red-500" : ""}`}
+                className={`flex w-full gap-3 py-2 px-4 rounded-xl bg-white/5 backdrop-blur-md relative !animate-pulse ${errors?.message ? "ring-2 ring-red-500" : ""}`}
               >
                 <textarea
                   // type="text"
