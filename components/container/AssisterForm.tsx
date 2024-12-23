@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 // import React,{useState,useEffect} from "react";
 
 import { SubmitButton, Button } from "@/components";
@@ -11,7 +11,7 @@ import { Play } from "lucide-react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AIMessageSchema, AIMessageSchemaType } from "@/schema";
-import { getAssisterResponse } from "@/actions/assister";
+import { sendUserMessage, getAIResponse } from "@/actions/assister";
 // import { useAccountStore } from "@/utils";
 
 // ! Web 3
@@ -20,6 +20,7 @@ import { useAppKit, useAppKitAccount } from "@reown/appkit/react";
 const AssisterForm = () => {
   const { open } = useAppKit();
   const { address, isConnected } = useAppKitAccount();
+  const [sendingMessage, setSendingMessage] = useState(false);
 
   // const userId = useAccountStore((state: any) => state.userId);
 
@@ -31,20 +32,29 @@ const AssisterForm = () => {
     formState: { errors },
   } = useForm<AIMessageSchemaType>({
     resolver: zodResolver(AIMessageSchema),
-    defaultValues: {
-      message: "",
-      sender: address,
-      response: "",
-      response_time: "",
-    },
+    // defaultValues: {
+    //   message: "",
+    //   sender: address || "",
+    //   response: "",
+    //   response_time: "",
+    // },
   });
 
   const onSubmit: SubmitHandler<AIMessageSchemaType> = (values) => {
-    getAssisterResponse(values).then((data) => {
-      console.log("🚀 ~ AssisterForm ~ data:", data);
+    setSendingMessage(true);
+    sendUserMessage(values, address).then((data) => {
+      // console.log("🚀 ~ sendUserMessage ~ data:", data);
+      setSendingMessage(false);
+      if (data?.status === "SUCCESS") {
+        getAIResponse(data?._id, data?.message).then((res) => {
+          if (res.response === 1) {
+            console.log("OK");
+          } else {
+            console.log("DAMN");
+          }
+        });
+      }
     });
-
-    // console.log("🚀 ~ onSubmit ~ values:", values);
   };
 
   return (
@@ -61,7 +71,7 @@ const AssisterForm = () => {
               >
                 <textarea
                   // type="text"
-                  className={`w-full !bg-transparent text-light placeholder:text-light/50 placeholder:font-light focus:!ring-0 focus:outline-none resize-none`}
+                  className={`w-full !bg-transparent text-light placeholder:text-light/50 placeholder:font-light focus:!ring-0 focus:outline-none resize-none ${sendingMessage ? "opacity-50 pointer-events-none" : ""}`}
                   rows={3}
                   autoFocus
                   maxLength={1000}

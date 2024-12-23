@@ -94,42 +94,101 @@ export const getAssisterResponse = async (values) => {
   }
 };
 
-export const sendUserMessage = async (values) => {
+export const sendUserMessage = async (values, address) => {
   const validatedFields = AIMessageSchema.parse(values);
 
   if (!validatedFields) {
     return { error: "Invalid Fields!" };
   }
 
-  const { message, sender, response, response_time } = values;
+  const { message } = values;
 
   try {
+    console.log("Starting to send user message");
+
     const chat = {
       message,
-      sender,
-      response,
-      response_time,
+      sender: address,
     };
 
     const chat_message = await writeClient.create({
       _type: "assister_chat",
       ...chat,
     });
+
     if (chat_message) {
-      console.log(
-        parseServerActionResponse({
-          ...chat_message,
-          error: "",
-          status: "SUCCESS",
-        })
-      );
+      return {
+        ...chat_message,
+        error: "",
+        status: "SUCCESS",
+      };
     } else {
-      console.log(
-        parseServerActionResponse({
-          error: "Error while posting chat message",
-          status: "ERROR",
+      return {
+        error: "Error while posting chat message",
+        status: "ERROR",
+      };
+    }
+  } catch (error) {
+    return parseServerActionResponse({
+      error: JSON.stringify(error),
+      status: "ERROR",
+    });
+  }
+};
+
+export const getAIResponse = async (id, message) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_ASSISTER_BASE_URL}/api/v1/slm/${process.env.NEXT_PUBLIC_ASSISTER_HANDLE}/chat`,
+      {
+        method: "POST",
+        headers: {
+          "X-Api-Key": process.env.NEXT_PUBLIC_ASSISTER_KEY,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ query: message }),
+      }
+    );
+
+    const ai_response = await res.json();
+    console.log("🚀 ~ getAssisterResponse ~ data:", ai_response);
+
+    if (res.ok && ai_response) {
+      const upload_response = await writeClient
+        .patch(id)
+        .set({
+          response: ai_response.message,
+          response_time: ai_response.message_at,
         })
-      );
+        .commit();
+
+      if (upload_response) {
+        return {
+          response: 1,
+        };
+      } else {
+        return {
+          response: 0,
+        };
+      }
+    } else {
+      const upload_response = await writeClient
+        .patch(id)
+        .set({
+          response: "Sorry, I couldn't get that",
+          response_time: new Date(),
+        })
+        .commit();
+
+      if (upload_response) {
+        return {
+          response: 1,
+        };
+      } else {
+        return {
+          response: 0,
+        };
+      }
     }
   } catch (error) {
     return parseServerActionResponse({

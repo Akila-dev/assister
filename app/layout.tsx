@@ -5,6 +5,7 @@ import { Toaster } from "sonner";
 
 import { headers } from "next/headers"; // added
 import { ContextProvider } from "@/components";
+// import { getCookies } from "@/actions/getCookies";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -34,8 +35,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const headersObj = await headers();
-  const cookies = headersObj.get("cookie");
+  const cookies = (await headers()).get("cookie");
 
   return (
     <html lang="en">

@@ -1,12 +1,10 @@
-// config/index.tsx
-
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { cookieStorage, createStorage, http } from "@wagmi/core";
 import { WagmiAdapter } from "@reown/appkit-adapter-wagmi";
 import { mainnet, arbitrum } from "@reown/appkit/networks";
 
 // Get projectId from https://cloud.reown.com
-export const projectId = process.env.NEXT_PUBLIC_WALLET_ID;
+export const projectId = process.env.NEXT_PUBLIC_WALLET_ID || "";
 
 if (!projectId) {
   throw new Error("Project ID is not defined");
