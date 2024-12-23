@@ -15,8 +15,7 @@ export const assister_chat = defineType({
     defineField({
       name: "sender",
       title: "sender",
-      type: "reference",
-      to: { type: "user" },
+      type: "string",
     }),
     defineField({
       name: "response",

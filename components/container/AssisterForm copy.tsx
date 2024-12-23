@@ -2,7 +2,6 @@
 "use client";
 
 import React from "react";
-// import React,{useState,useEffect} from "react";
 
 import { SubmitButton, Button } from "@/components";
 import { Play } from "lucide-react";
@@ -12,31 +11,59 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AIMessageSchema, AIMessageSchemaType } from "@/schema";
 import { getAssisterResponse } from "@/actions/assister";
-// import { useAccountStore } from "@/utils";
+import { useAppKit } from "@reown/appkit/react";
+import { useAccountStore } from "@/utils";
 
 // ! Web 3
-import { useAppKit, useAppKitAccount } from "@reown/appkit/react";
+import { createAppKit } from "@reown/appkit/react";
+import { SolanaAdapter } from "@reown/appkit-adapter-solana/react";
+import { solana, solanaTestnet, solanaDevnet } from "@reown/appkit/networks";
+import {
+  PhantomWalletAdapter,
+  SolflareWalletAdapter,
+} from "@solana/wallet-adapter-wallets";
+
+// 0. Set up Solana Adapter
+const solanaWeb3JsAdapter = new SolanaAdapter({
+  wallets: [new PhantomWalletAdapter(), new SolflareWalletAdapter()],
+});
+
+// 1. Get projectId from https://cloud.reown.com
+const projectId = process.env.NEXT_PUBLIC_WALLET_ID || "";
+
+// 2. Create a metadata object - optional
+const kitMetadata = {
+  name: "Assister AppKit",
+  description: "Assister AppKit Solana",
+  url: "https://example.com", // origin must match your domain & subdomain
+  icons: ["https://avatars.githubusercontent.com/u/179229932"],
+};
+
+// 3. Create modal
+createAppKit({
+  adapters: [solanaWeb3JsAdapter],
+  networks: [solana, solanaTestnet, solanaDevnet],
+  metadata: kitMetadata,
+  projectId,
+  features: {
+    analytics: true, // Optional - defaults to your Cloud configuration
+  },
+});
+
+// const user = {
+//   id: "mkjhbvff766vffcv8v",
+//   ref: "2b94f6dc-829e-42ee-a550-20ca46cdeec0",
+//   //   id: "1653ghdbb-dh#dh",
+// };
 
 const AssisterForm = () => {
-  const { open } = useAppKit();
-  const { address, isConnected } = useAppKitAccount();
-
-  // const userId = useAccountStore((state: any) => state.userId);
-
-  // const [userId, setUserId] = useState("")
-
+  const userId = useAccountStore((state: any) => state.userId);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<AIMessageSchemaType>({
     resolver: zodResolver(AIMessageSchema),
-    defaultValues: {
-      message: "",
-      sender: address,
-      response: "",
-      response_time: "",
-    },
   });
 
   const onSubmit: SubmitHandler<AIMessageSchemaType> = (values) => {
@@ -47,9 +74,11 @@ const AssisterForm = () => {
     // console.log("🚀 ~ onSubmit ~ values:", values);
   };
 
+  const { open } = useAppKit();
+
   return (
     <>
-      {isConnected ? (
+      {userId ? (
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="w-full py-5 border-t border-white/10 shadow-xl shadow-white/5"

@@ -131,6 +131,15 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
+export type User = {
+  _id: string;
+  _type: "user";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  id?: string;
+};
+
 export type Assister_response = {
   _id: string;
   _type: "assister_response";
@@ -147,24 +156,10 @@ export type Assister_chat = {
   _updatedAt: string;
   _rev: string;
   message?: string;
-  sender?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "user";
-  };
+  sender?: string;
   response?: string;
   response_time?: string;
 };
 
-export type User = {
-  _id: string;
-  _type: "user";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  id?: string;
-};
-
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData | Assister_response | Assister_chat | User;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData | User | Assister_response | Assister_chat;
 export declare const internalGroqTypeReferenceTo: unique symbol;

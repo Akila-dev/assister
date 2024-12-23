@@ -60,10 +60,6 @@ export const getAssisterResponse = async (values) => {
         })
         .commit();
 
-      console.log(
-        "🚀 ~ getAssisterResponse ~ upload_response:",
-        upload_response
-      );
       if (upload_response) {
         return {
           response: 1,
@@ -90,6 +86,51 @@ export const getAssisterResponse = async (values) => {
     //     response: 0,
     //   };
     // }
+  } catch (error) {
+    return parseServerActionResponse({
+      error: JSON.stringify(error),
+      status: "ERROR",
+    });
+  }
+};
+
+export const sendUserMessage = async (values) => {
+  const validatedFields = AIMessageSchema.parse(values);
+
+  if (!validatedFields) {
+    return { error: "Invalid Fields!" };
+  }
+
+  const { message, sender, response, response_time } = values;
+
+  try {
+    const chat = {
+      message,
+      sender,
+      response,
+      response_time,
+    };
+
+    const chat_message = await writeClient.create({
+      _type: "assister_chat",
+      ...chat,
+    });
+    if (chat_message) {
+      console.log(
+        parseServerActionResponse({
+          ...chat_message,
+          error: "",
+          status: "SUCCESS",
+        })
+      );
+    } else {
+      console.log(
+        parseServerActionResponse({
+          error: "Error while posting chat message",
+          status: "ERROR",
+        })
+      );
+    }
   } catch (error) {
     return parseServerActionResponse({
       error: JSON.stringify(error),

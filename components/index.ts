@@ -20,3 +20,6 @@ export { default as MessageNResponse } from "./cards/MessageNResponse";
 // Containers
 export { default as Messages } from "./container/Messages";
 export { default as AssisterForm } from "./container/AssisterForm";
+
+// Wrapper
+export { default as ContextProvider } from "./wrapper/ContextProvider";
