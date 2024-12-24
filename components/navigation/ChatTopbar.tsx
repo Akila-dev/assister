@@ -66,7 +66,7 @@ const ChatTopbar = ({
                 transition={spring}
               />
             </div>
-            <p className="text-sm show-md">Global Chat</p>
+            <p className="text-sm show-md">Global Chats</p>
             {/* <ChevronDown /> */}
           </button>
           <div className="hide-md flex-center !gap-[2px] flex-col">

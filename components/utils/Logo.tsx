@@ -23,7 +23,7 @@ const Logo = ({
       />
       {showName && (
         <h2 className="text-[1.2rem] lg:text-[1.7vw] xl:text-[1.35rem] tracking-[0.1em] font-bold transition-500">
-          LYRA
+          LYRIC
         </h2>
       )}
     </Link>

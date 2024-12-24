@@ -1,12 +1,17 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 // import { motion } from "framer-motion";
 import { MotionDiv } from "@/constants/motionProps";
 
 import { List, Handshake } from "lucide-react";
 import { DotGrid, Button, Motion, Logo } from "@/components";
 import { variants } from "@/constants";
+import { toast } from "sonner";
+
+// Web 3
+import { useAppKitAccount } from "@reown/appkit/react";
+import { sendUserMessage, getAIResponse } from "@/actions/assister";
 
 interface IGameStats {
   label: string;
@@ -22,6 +27,31 @@ const ChatSidebar = ({
   stats?: IGameStats[];
   examplePrompts?: string[];
 }) => {
+  const { address, isConnected } = useAppKitAccount();
+  const [isQuerying, setIsQuerying] = useState(false);
+
+  const queryAssister = (query: string) => {
+    const values = { message: query };
+    if (isConnected) {
+      setIsQuerying(true);
+      sendUserMessage(values, address).then((data) => {
+        setIsQuerying(false);
+        if (data?.status === "SUCCESS") {
+          getAIResponse(data?._id, data?.message).then((res) => {
+            if (res.response === 1) {
+              console.log("OK");
+            } else {
+              console.log("DAMN");
+            }
+          });
+        }
+      });
+    } else {
+      toast.info(`Please connect your wallet to continue`, {
+        duration: 1000,
+      });
+    }
+  };
   return (
     <div className="relative h-full bg-dark overflow-x-clip overflow-y-auto">
       <div
@@ -103,8 +133,8 @@ const ChatSidebar = ({
               >
                 <Button
                   text={prompt}
-                  link="/"
-                  className={`sidebar-card !bg-none !py-3`}
+                  onClick={() => queryAssister(prompt)}
+                  className={`sidebar-card !bg-none !py-3 ${isQuerying ? "pointer-events-none" : "pointer-events-auto"}`}
                 />
               </MotionDiv>
             ))}

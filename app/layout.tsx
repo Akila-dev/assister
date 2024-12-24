@@ -3,8 +3,9 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "sonner";
 
-import { headers } from "next/headers"; // added
-import { ContextProvider } from "@/components";
+// import { headers } from "next/headers"; // added
+// import { ContextProvider, SolanaWrapper } from "@/components";
+import { SolanaWrapper } from "@/components";
 // import { getCookies } from "@/actions/getCookies";
 
 const geistSans = localFont({
@@ -30,19 +31,20 @@ export const metadata: Metadata = {
     "Lyra is the cosmic guardian, overseeing a growing prize pool and testing the ingenuity and wits of humanity.",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookies = (await headers()).get("cookie");
+  // const cookies = (await headers()).get("cookie");
 
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${inter.variable} ${geistMono.variable} antialiased bg-dark bg-fixed bg-center bg-cover oveflow-hidden main`}
       >
-        <ContextProvider cookies={cookies}>{children}</ContextProvider>
+        {/* <ContextProvider cookies={cookies}>{children}</ContextProvider> */}
+        <SolanaWrapper>{children}</SolanaWrapper>
         <Toaster
           toastOptions={{
             className: "toast-custom",

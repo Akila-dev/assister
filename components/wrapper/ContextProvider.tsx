@@ -16,15 +16,16 @@ if (!projectId) {
 
 // Set up metadata
 const metadata = {
-  name: "appkit-example",
-  description: "AppKit Example",
+  name: "assister",
+  description: "Assister for Lyra",
   url: "https://assister.vercel.app/", // origin must match your domain & subdomain
   icons: ["https://avatars.githubusercontent.com/u/179229932"],
 };
 
 // Create the modal
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const modal = createAppKit({
+// const modal = createAppKit({
+createAppKit({
   adapters: [wagmiAdapter],
   projectId,
   networks: [mainnet, arbitrum],
