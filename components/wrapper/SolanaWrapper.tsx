@@ -16,8 +16,7 @@ const solanaWeb3JsAdapter = new SolanaAdapter({
 });
 
 // 1. Get projectId from https://cloud.reown.com
-export const projectId =
-  process.env.NEXT_PUBLIC_WALLET_ID || "8c371ee0f7091f418da87af0cf01bb95";
+export const projectId = process.env.NEXT_PUBLIC_WALLET_ID || "";
 
 // 2. Create a metadata object - optional
 const metadata = {

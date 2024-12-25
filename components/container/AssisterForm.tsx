@@ -12,7 +12,6 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AIMessageSchema, AIMessageSchemaType } from "@/schema";
 import { sendUserMessage, getAIResponse } from "@/actions/assister";
-// import { useAccountStore } from "@/utils";
 
 // ! Web 3
 import { useAppKit, useAppKitAccount } from "@reown/appkit/react";
@@ -21,10 +20,6 @@ const AssisterForm = () => {
   const { open } = useAppKit();
   const { address, isConnected } = useAppKitAccount();
   const [sendingMessage, setSendingMessage] = useState(false);
-
-  // const userId = useAccountStore((state: any) => state.userId);
-
-  // const [userId, setUserId] = useState("")
 
   const {
     register,
@@ -75,7 +70,7 @@ const AssisterForm = () => {
                   rows={3}
                   autoFocus
                   maxLength={1000}
-                  placeholder="Pay $100 to send a message"
+                  placeholder="Pay $0 to send a message"
                   {...register("message")}
                 />
 

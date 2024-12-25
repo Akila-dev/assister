@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -7,6 +8,7 @@ import { MotionDiv } from "@/constants/motionProps";
 import { toast } from "sonner";
 
 import { ChatSidebar, Logo, PopupWrapper } from "@/components";
+import { useGlobalChatsStore } from "@/utils";
 
 interface IGameStats {
   label: string;
@@ -25,7 +27,11 @@ const ChatTopbar = ({
   examplePrompts?: string[];
 }) => {
   const [showMenu, setShowMenu] = useState(false);
-  const [isGlobal, setIsGlobal] = useState(true);
+  // const [isGlobal, setIsGlobal] = useState(true);
+  const isGlobal = useGlobalChatsStore((state: any) => state.globalChats);
+  const toggleGlobalChats = useGlobalChatsStore(
+    (state: any) => state.toggleGlobalChats
+  );
 
   const pathname = usePathname(); // Instantiating the router
 
@@ -34,7 +40,7 @@ const ChatTopbar = ({
   }, [pathname]);
 
   const toggleSwitch = () => {
-    setIsGlobal(!isGlobal);
+    toggleGlobalChats();
     toast.success(`Global chats ${isGlobal ? "disabled" : "enabled"}`, {
       duration: 1000,
     });
