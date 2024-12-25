@@ -90,7 +90,7 @@ const AssisterForm = () => {
           </div>
         </form>
       ) : (
-        <div className="w-full py-5 border-t border-white/10 shadow-xl shadow-white/5">
+        <div className="w-full py-3 md:py-5 border-t border-white/10 shadow-xl shadow-white/5">
           <div className="container !py-0">
             <div className="flex w-full gap-3 py-2 px-4 rounded-xl bg-white/5 backdrop-blur-md relative show-md justify-between items-center">
               <p className="input opacity-30">Connect Wallet to sent message</p>
@@ -100,6 +100,11 @@ const AssisterForm = () => {
                 className="btn-1 !text-center !justify-center"
               />
             </div>
+            <Button
+              text="Connect Wallet"
+              onClick={() => open()}
+              className="btn-1 !text-center !justify-center hide-md"
+            />
           </div>
         </div>
       )}

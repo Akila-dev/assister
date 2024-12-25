@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { ReactNode } from "react";
@@ -16,7 +17,7 @@ const solanaWeb3JsAdapter = new SolanaAdapter({
 });
 
 // 1. Get projectId from https://cloud.reown.com
-export const projectId = process.env.NEXT_PUBLIC_WALLET_ID || "";
+export const projectId: any = process.env.NEXT_PUBLIC_WALLET_ID;
 
 // 2. Create a metadata object - optional
 const metadata = {
@@ -27,14 +28,14 @@ const metadata = {
 };
 
 // 3. Create modal
-createAppKit({
+export const modal = createAppKit({
   adapters: [solanaWeb3JsAdapter],
   networks: [solana, solanaTestnet, solanaDevnet],
   metadata: metadata,
   projectId,
-  features: {
-    analytics: true, // Optional - defaults to your Cloud configuration
-  },
+  //   features: {
+  //     analytics: true, // Optional - defaults to your Cloud configuration
+  //   },
 });
 
 function SolanaWrapper({ children }: { children: ReactNode }) {
