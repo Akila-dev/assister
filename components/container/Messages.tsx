@@ -15,6 +15,9 @@ const Messages = ({ messages }: { messages: Assister_chat[] }) => {
   const [filteredMessages, setFilteredMessages] = useState(messages || []);
   const { address } = useAppKitAccount();
 
+  // console.log(address);
+  // console.log(messages);
+
   useEffect(() => {
     container.current.scrollTop = container.current.scrollHeight;
   }, [messages]);

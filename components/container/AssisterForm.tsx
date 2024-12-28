@@ -24,6 +24,7 @@ const AssisterForm = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<AIMessageSchemaType>({
     resolver: zodResolver(AIMessageSchema),
@@ -37,20 +38,22 @@ const AssisterForm = () => {
 
   const onSubmit: SubmitHandler<AIMessageSchemaType> = (values) => {
     setSendingMessage(true);
-    const sender = address || "";
-    sendUserMessage(values, sender).then((data) => {
-      // console.log("🚀 ~ sendUserMessage ~ data:", data);
-      setSendingMessage(false);
-      if (data?.status === "SUCCESS") {
-        getAIResponse(data?._id, data?.message).then((res) => {
-          if (res.response === 1) {
-            console.log("OK");
-          } else {
-            console.log("DAMN");
-          }
-        });
-      }
-    });
+    if (address) {
+      sendUserMessage(values, address).then((data) => {
+        // console.log("🚀 ~ sendUserMessage ~ data:", data);
+        setSendingMessage(false);
+        if (data?.status === "SUCCESS") {
+          setValue("message", "");
+          getAIResponse(data?._id, data?.message).then((res) => {
+            if (res.response === 1) {
+              console.log("OK");
+            } else {
+              console.log("DAMN");
+            }
+          });
+        }
+      });
+    }
   };
 
   return (

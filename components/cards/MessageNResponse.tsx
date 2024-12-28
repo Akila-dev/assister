@@ -21,11 +21,15 @@ const MessageNResponse = ({
   response_time,
   time,
 }: IMessage) => {
-  const time_diff = (val?: string) => {
-    const date = new Date(val || "");
-    const present_time = date.toUTCString();
-    return moment(present_time).fromNow();
-  };
+  function time_diff(val?: string) {
+    if (val) {
+      const date = new Date(val);
+      const present_time = date.toUTCString();
+      return moment(present_time).fromNow();
+    } else {
+      return "";
+    }
+  }
   return (
     <div className="flex flex-col gap-3">
       <div className="flex gap-3 w-full justify-end">

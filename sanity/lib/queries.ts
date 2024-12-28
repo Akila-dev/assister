@@ -5,7 +5,7 @@ export const GET_ASSISTER_MESSAGES =
   _createdAt,
   _id,
   message,
-  sender->{id},
+  sender,
   response,
   response_time
 }`);

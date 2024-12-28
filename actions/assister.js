@@ -15,13 +15,14 @@ export const sendUserMessage = async (values, address) => {
   }
 
   const { message } = values;
+  const sender = address;
 
   try {
     console.log("Starting to send user message");
 
     const chat = {
       message,
-      sender: address,
+      sender,
     };
 
     const chat_message = await writeClient.create({
