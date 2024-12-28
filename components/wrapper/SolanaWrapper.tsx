@@ -17,7 +17,7 @@ const solanaWeb3JsAdapter = new SolanaAdapter({
   wallets: [new PhantomWalletAdapter(), new SolflareWalletAdapter()],
 });
 
-export const projectId = "8c371ee0f7091f418da87af0cf01bb95";
+export const projectId: any = process.env.NEXT_PUBLIC_WALLET_ID;
 
 const metadata = {
   name: "Assister",
