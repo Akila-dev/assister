@@ -3,8 +3,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "sonner";
 
-// import { headers } from "next/headers"; // added
-// import { ContextProvider, SolanaWrapper } from "@/components";
+import { headers } from "next/headers"; // added
+// import { ContextProvider, SolanaWrapper,SolanaContext } from "@/components";
 import { SolanaWrapper } from "@/components";
 // import { getCookies } from "@/actions/getCookies";
 
@@ -31,12 +31,14 @@ export const metadata: Metadata = {
     "Lyra is the cosmic guardian, overseeing a growing prize pool and testing the ingenuity and wits of humanity.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // const cookies = (await headers()).get("cookie");
+  const headersList = await headers();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const cookies = headersList.get("cookie");
 
   return (
     <html lang="en">
@@ -45,6 +47,7 @@ export default function RootLayout({
       >
         {/* <ContextProvider cookies={cookies}>{children}</ContextProvider> */}
         <SolanaWrapper>{children}</SolanaWrapper>
+        {/* {children} */}
         <Toaster
           toastOptions={{
             className: "toast-custom",

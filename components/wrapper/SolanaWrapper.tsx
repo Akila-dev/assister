@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
@@ -11,31 +12,31 @@ import {
   SolflareWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
 
-// 0. Set up Solana Adapter
+// Set up Solana Adapter
 const solanaWeb3JsAdapter = new SolanaAdapter({
   wallets: [new PhantomWalletAdapter(), new SolflareWalletAdapter()],
 });
 
-// 1. Get projectId from https://cloud.reown.com
-export const projectId: any = process.env.NEXT_PUBLIC_WALLET_ID;
+export const projectId = "8c371ee0f7091f418da87af0cf01bb95";
 
-// 2. Create a metadata object - optional
 const metadata = {
-  name: "Lyric",
+  name: "Assister",
   description: "Assister for Lyra",
   url: "https://assister.vercel.app/", // origin must match your domain & subdomain
   icons: ["https://avatars.githubusercontent.com/u/179229932"],
 };
 
-// 3. Create modal
-export const modal = createAppKit({
+// Modal
+createAppKit({
   adapters: [solanaWeb3JsAdapter],
   networks: [solana, solanaTestnet, solanaDevnet],
   metadata: metadata,
   projectId,
-  //   features: {
-  //     analytics: true, // Optional - defaults to your Cloud configuration
-  //   },
+  features: {
+    analytics: true,
+    email: true,
+    emailShowWallets: true,
+  },
 });
 
 function SolanaWrapper({ children }: { children: ReactNode }) {
