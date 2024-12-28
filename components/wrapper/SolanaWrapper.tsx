@@ -34,8 +34,8 @@ const modal = createAppKit({
   projectId,
   features: {
     analytics: true,
-    email: true,
-    emailShowWallets: true,
+    email: false,
+    emailShowWallets: false,
   },
 });
 

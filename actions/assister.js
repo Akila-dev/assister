@@ -71,7 +71,7 @@ export const getAIResponse = async (id, message) => {
         .patch(id)
         .set({
           response: ai_response.message,
-          response_time: ai_response.message_at,
+          response_time: new Date().toUTCString(),
         })
         .commit();
 
@@ -160,7 +160,7 @@ export const getAssisterResponse = async (values) => {
         .patch(chat_message._id)
         .set({
           response: ai_response.message,
-          response_time: new Date().toUTCString(),
+          response_time: new Date().toLocaleString(),
         })
         .commit();
 
