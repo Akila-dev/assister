@@ -27,7 +27,7 @@ const metadata = {
 };
 
 // Modal
-createAppKit({
+const modal = createAppKit({
   adapters: [solanaWeb3JsAdapter],
   networks: [solana, solanaTestnet, solanaDevnet],
   metadata: metadata,
