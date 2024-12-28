@@ -3,7 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "sonner";
 
-import { headers } from "next/headers"; // added
+// import { headers } from "next/headers"; // added
 // import { ContextProvider, SolanaWrapper,SolanaContext } from "@/components";
 import { SolanaWrapper } from "@/components";
 // import { getCookies } from "@/actions/getCookies";
@@ -31,14 +31,14 @@ export const metadata: Metadata = {
     "Lyra is the cosmic guardian, overseeing a growing prize pool and testing the ingenuity and wits of humanity.",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const headersList = await headers();
+  // const headersList = await headers();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const cookies = headersList.get("cookie");
+  // const cookies = headersList.get("cookie");
 
   return (
     <html lang="en">
